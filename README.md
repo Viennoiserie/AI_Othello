@@ -58,13 +58,7 @@ python game.py path_to_model1.pt path_to_model2.pt
 To train models:
 
 ```bash
-python trainingmlp.py
-python ttrainingcnn.py
-python traininglstm.py
+python training_MLP.py
+python training_CNN.py
+python training_LSTM.py
 ```
-
-## Notes
-
-- Ensure your dataset is placed under `./dataset/` with properly formatted `.h5` files.
-- `utile.py` is shared across all scripts and must be accessible.
-- Trained models are saved under `save_models_*` directories with architecture-specific suffixes.
