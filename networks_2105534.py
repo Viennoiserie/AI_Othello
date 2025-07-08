@@ -1,40 +1,32 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-
-from torch.autograd import Variable
-from torch.utils.data import Dataset,DataLoader
-
-from torch.nn.utils.rnn import pad_sequence
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-from scipy.ndimage import gaussian_filter1d
-from sklearn.metrics import f1_score
-from sklearn.metrics import classification_report
-
-from tqdm import tqdm
-import pandas as pd
-import numpy as np
-
 import os
 import sys
 import h5py
 import json
 import copy
 import time
+import torch
+import numpy as np
+import pandas as pd
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
 
+from tqdm import tqdm
 from datetime import datetime
-
+from torch.autograd import Variable
+from sklearn.metrics import f1_score
+from scipy.ndimage import gaussian_filter1d
+from torch.nn.utils.rnn import pad_sequence
+from torch.utils.data import Dataset,DataLoader
+from sklearn.metrics import classification_report
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 #----------------------------- FIN DES IMPORTS -------------------------------
 
 BOARD_SIZE=8
 
 def loss_fnc(predictions, targets):
-
     return nn.CrossEntropyLoss()(input=predictions,target=targets)
-
-
 
 class MLP(nn.Module):
 
@@ -53,7 +45,6 @@ class MLP(nn.Module):
 
         self.dropout = nn.Dropout(p = 0.1)
         
-
     def forward(self, seq):
 
         seq = np.squeeze(seq)
@@ -70,7 +61,6 @@ class MLP(nn.Module):
 
         return F.softmax(outp, dim = -1)
     
-
     def train_all(self, train, dev, num_epoch, device, optimizer):
 
         if not os.path.exists(f"{self.path_save}"):
@@ -150,8 +140,7 @@ class MLP(nn.Module):
         print(f"Recalculing the best DEV: WAcc : {100*_clas_rep['weighted avg']['recall']}%")
 
         return best_epoch
-    
-    
+   
     def evaluate(self, test_loader, device):
         
         all_predicts = []
@@ -182,7 +171,6 @@ class MLP(nn.Module):
         
         return perf_rep
     
-    
 
 class LSTMs(nn.Module):
 
@@ -201,7 +189,6 @@ class LSTMs(nn.Module):
         # self.hidden2output = nn.Linear(self.hidden_dim, self.board_size*self.board_size)
         self.dropout = nn.Dropout(p = 0.1)
 
-
     def forward(self, seq):
         
         seq = np.squeeze(seq)
@@ -219,7 +206,6 @@ class LSTMs(nn.Module):
         outp = F.softmax(outp, dim = 1).squeeze()
 
         return outp
-
     
     def train_all(self, train, dev, num_epoch, device, optimizer):
 
@@ -301,7 +287,6 @@ class LSTMs(nn.Module):
         print(f"Recalculing the best DEV: WAcc : {100*_clas_rep['weighted avg']['recall']}%")
         
         return best_epoch
-    
     
     def evaluate(self, test_loader, device):
         
@@ -358,7 +343,6 @@ class ConvNeuralNet(torch.nn.Module):
 
         self.fc2 = torch.nn.Linear(self.board_size * self.board_size,  self.board_size * self.board_size)
 
-    
     def forward(self, x):
 
         x = np.reshape(x, (x.shape[0], 1, x.shape[-2], x.shape[-1]))
@@ -375,8 +359,7 @@ class ConvNeuralNet(torch.nn.Module):
         out = self.fc1(out)
         #return(F.softmax(out, dim=-1))
         return(out)
-
-
+        
     def train_all(self, train, dev, num_epoch, device, optimizer):
 
         if not os.path.exists(f"{self.path_save}"):
@@ -458,7 +441,6 @@ class ConvNeuralNet(torch.nn.Module):
         
         return best_epoch
     
-    
     def evaluate(self, test_loader, device):
         
         all_predicts = []
@@ -491,7 +473,3 @@ class ConvNeuralNet(torch.nn.Module):
                                          output_dict = True)
         
         return perf_rep
-
-
-            
-
