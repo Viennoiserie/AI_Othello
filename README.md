@@ -8,10 +8,10 @@ This project implements an AI for the game of Othello using multiple neural netw
 - **game.py**: Main game execution script. It loads two models and simulates games between them, generating move logs and animations.
 - **networks.py**: Contains implementations for the MLP, LSTM, and CNN models used to predict moves.
 - **utile.py**: Utility functions for board state management, move validation, and tile flipping logic.
-- **ttrainingcnn.py**: Training script for the CNN model.
-- **trainingmlp.py**: Training script for the MLP model.
-- **traininglstm.py**: Training script for the LSTM model.
-- **reloadmodel.py**: Reloads and re-saves models for compatibility (e.g., ensuring `len_input_seq` is set).
+- **training_CNN.py**: Training script for the CNN model.
+- **training_MLP.py**: Training script for the MLP model.
+- **training_LSTM.py**: Training script for the LSTM model.
+- **reloadModel.py**: Reloads and re-saves models for compatibility (e.g., ensuring `len_input_seq` is set).
 
 ## Dataset
 
