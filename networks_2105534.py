@@ -21,7 +21,9 @@ from torch.utils.data import Dataset,DataLoader
 from sklearn.metrics import classification_report
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
+
 #----------------------------- FIN DES IMPORTS -------------------------------
+
 
 BOARD_SIZE=8
 
